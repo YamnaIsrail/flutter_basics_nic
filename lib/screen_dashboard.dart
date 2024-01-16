@@ -13,7 +13,7 @@ class ScreenDashboard extends StatefulWidget {
 class _ScreenDashboardState extends State<ScreenDashboard> {
 
   var client= http.Client();
-  late List<Temperatures> temperatures;
+  late List<Temperatures> temperatures=[];
 
 
   @override
@@ -45,16 +45,18 @@ class _ScreenDashboardState extends State<ScreenDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: temperatures.length> 0
-            ? ListView.builder(
-            itemBuilder: (context, index){
-              return ListTile(
-                title: Text("${temperatures[index].name}"), // Update here
-                subtitle: Text("${temperatures[index].city}"), // Add if necessary
-              );;
-            })
-            :CircularProgressIndicator(),
+      body: Center(
+        child: Container(
+          child: temperatures.length> 0
+              ? ListView.builder(
+              itemBuilder: (context, index){
+                return ListTile(
+                  title: Text("${temperatures[index].name}"), // Update here
+                  subtitle: Text("${temperatures[index].city}"), // Add if necessary
+                );;
+              })
+              :CircularProgressIndicator(),
+        ),
       )
     );
   }
