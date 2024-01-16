@@ -13,33 +13,34 @@ class ScreenDashboard extends StatefulWidget {
 class _ScreenDashboardState extends State<ScreenDashboard> {
 
   var client= http.Client();
-  late List<Temperatures> temperatures=[];
+  late List<Temperatures> temperatures = [];
 
 
   @override
 
   void initState(){
   super.initState();
+  LoadData();
   }
 
+//  Map<String, dynamic> body={};
   void LoadData() async{
-    String stringurl=
-        "https://mocki.io/v1/d4867d8b-b5d5-4a48-a4ab-79131b5809b8";
+    String stringurl= "https://mocki.io/v1/d4867d8b-b5d5-4a48-a4ab-79131b5809b8";
+
     Uri Uri_url= Uri.parse(stringurl);
-    Map<String, dynamic> body={};
 
     Response response= await client.get(Uri_url);
 
     if(response.statusCode==200){
       setState(() {
-        final temperatures = temperaturesFromMap(response.body);
+         temperatures = temperaturesFromMap(response.body).toList();
       });
       }
 
-    print("${response.statusCode}");
-    print("${response.body}");
+    print("object");
 
   }
+
 
 
   @override
@@ -49,15 +50,16 @@ class _ScreenDashboardState extends State<ScreenDashboard> {
         child: Container(
           child: temperatures.length> 0
               ? ListView.builder(
+              itemCount: temperatures.length,
               itemBuilder: (context, index){
                 return ListTile(
                   title: Text("${temperatures[index].name}"), // Update here
                   subtitle: Text("${temperatures[index].city}"), // Add if necessary
                 );;
               })
-              :CircularProgressIndicator(),
+              :CircularProgressIndicator()),
         ),
-      )
+
     );
   }
 }
